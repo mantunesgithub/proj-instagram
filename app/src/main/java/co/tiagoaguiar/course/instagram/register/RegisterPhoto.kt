@@ -1,13 +1,12 @@
 package co.tiagoaguiar.course.instagram.register
 
 import android.net.Uri
-import androidx.annotation.StringRes
-import co.tiagoaguiar.course.instagram.common.base.BasePresent
+import co.tiagoaguiar.course.instagram.common.base.BasePresenter
 import co.tiagoaguiar.course.instagram.common.base.BaseView
 
 interface RegisterPhoto {
 
-    interface Presenter: BasePresent {
+    interface Presenter: BasePresenter {
         fun updateUser(photoUri: Uri)
     }
     interface View: BaseView<Presenter> {

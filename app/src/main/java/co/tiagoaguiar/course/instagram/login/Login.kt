@@ -1,12 +1,12 @@
 package co.tiagoaguiar.course.instagram.login
 
 import androidx.annotation.StringRes
-import co.tiagoaguiar.course.instagram.common.base.BasePresent
+import co.tiagoaguiar.course.instagram.common.base.BasePresenter
 import co.tiagoaguiar.course.instagram.common.base.BaseView
 
 interface Login {
 
-    interface Presenter: BasePresent {
+    interface Presenter: BasePresenter {
         fun login(email: String, password: String)
 
     }

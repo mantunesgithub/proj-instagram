@@ -13,5 +13,4 @@ class RegisterRepository(private val dataSource: RegisterDataSource) {
     fun updateUser(photoUri: Uri, callback: RegisterCallback) {
         dataSource.updateUser(photoUri, callback)
     }
-
 }

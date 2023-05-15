@@ -1,10 +1,10 @@
 package co.tiagoaguiar.course.instagram.splash
 
-import co.tiagoaguiar.course.instagram.common.base.BasePresent
+import co.tiagoaguiar.course.instagram.common.base.BasePresenter
 import co.tiagoaguiar.course.instagram.common.base.BaseView
 
 interface Splash {
-    interface Presenter: BasePresent {
+    interface Presenter: BasePresenter {
         fun authenticated()
     }
     interface View: BaseView<Presenter>{

@@ -1,5 +1,5 @@
 package co.tiagoaguiar.course.instagram.common.base
 
-interface BasePresent {
+interface BasePresenter {
     fun onDestroy()
 }

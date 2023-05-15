@@ -21,7 +21,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
-
     //fragmentos que serao utilizados
     private lateinit var homeFragment: Fragment
     private lateinit var searchFragment: Fragment

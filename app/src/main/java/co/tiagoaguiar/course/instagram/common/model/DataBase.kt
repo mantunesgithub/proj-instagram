@@ -6,7 +6,11 @@ object Database {
 
     val usersAuth = hashSetOf<UserAuth>()
     val photos = hashSetOf<Photo>()
-
+    val posts = hashMapOf<String, Set<Post>>()
+    /*
+        "userA" : ["post1", "post2"]
+        "userB" : ["post1", "post2", "post3"]
+     */
     var sessionAuth: UserAuth? = null
 
     init {

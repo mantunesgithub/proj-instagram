@@ -1,11 +1,11 @@
 package co.tiagoaguiar.course.instagram.register
 
 import androidx.annotation.StringRes
-import co.tiagoaguiar.course.instagram.common.base.BasePresent
+import co.tiagoaguiar.course.instagram.common.base.BasePresenter
 import co.tiagoaguiar.course.instagram.common.base.BaseView
 
 interface RegisterEmail {
-    interface Presenter: BasePresent {
+    interface Presenter: BasePresenter {
         fun create(email: String)
     }
     interface View: BaseView<Presenter> {
