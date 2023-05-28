@@ -1,5 +1,6 @@
 package co.tiagoaguiar.course.instagram.profile.data
 
+import co.tiagoaguiar.course.instagram.common.base.Cache
 import co.tiagoaguiar.course.instagram.common.model.Post
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
@@ -8,24 +9,33 @@ import co.tiagoaguiar.course.instagram.common.model.UserAuth
     Interface ProfileCache generica onde vai informar o tipo de cache que precisa fazer
  */
 class ProfileDataSourceFactory(
-    private val profileCache: ProfileCache <UserAuth>,
-    private val postsCache: ProfileCache<List<Post>>
+    private val profileCache: Cache <Pair<UserAuth, Boolean?>>,
+    private val postsCache: Cache<List<Post>>
 ) {
 
     fun createLocalDataSource(): ProfileDataSource {
         return ProfileLocalDataSource(profileCache, postsCache)
     }
+    fun createRemoteDataSource(): ProfileDataSource {
+        return ProfileFakeRemoteDataSource()
+    }
     //  Metodo para verificar no repository da onde ele vai buscar informações
-    fun createFromUser() : ProfileDataSource {
+    fun createFromUser(uuid: String?) : ProfileDataSource {
+        if (uuid != null)
+            return ProfileFakeRemoteDataSource()
+
         if (profileCache.isCached()) {
             return ProfileLocalDataSource(profileCache, postsCache)
         }
-        return FakeProfileRemoteDataSource()
+        return ProfileFakeRemoteDataSource()
     }
-    fun createFromPosts():   ProfileDataSource {
+    fun createFromPosts(uuid: String?):   ProfileDataSource {
+        if (uuid != null)
+            return ProfileFakeRemoteDataSource()
+
         if (postsCache.isCached()) {
             return ProfileLocalDataSource(profileCache, postsCache)
         }
-        return FakeProfileRemoteDataSource()
+        return ProfileFakeRemoteDataSource()
     }
 }

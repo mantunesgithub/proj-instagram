@@ -1,8 +1,8 @@
-package co.tiagoaguiar.course.instagram.profile.data
+package co.tiagoaguiar.course.instagram.common.base
 /*
     Cache da tela de perfil
  */
-interface ProfileCache<T> {
+interface Cache<T> {
 //  Verifica se tem algo no cache
     fun isCached() : Boolean
 
@@ -10,5 +10,5 @@ interface ProfileCache<T> {
     fun get(key: String) : T?
 
 //  Adicionar um dados do tipo gen.
-    fun put(data: T)
+    fun put(data: T?)
 }

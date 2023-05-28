@@ -6,9 +6,12 @@ import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
 interface ProfileDataSource {
 //  Busca do servidor
-    fun fetchUserProfile(userUUID: String, callback: RequestCallBack<UserAuth>)
+    fun fetchUserProfile(userUUID: String, callback: RequestCallBack<Pair<UserAuth, Boolean?>>)
 
     fun fetchUserPosts(userUUID: String, callback: RequestCallBack<List<Post>>)
+
+    fun followUser(userUUID: String, isFollow: Boolean, callback: RequestCallBack<Boolean>)
+        { throw UnsupportedOperationException()}
 
 /*  Busca de algum lugar - Se o acesso remoto chamar esses metodo vai dar crach pq esses metodos
     são de acesso a cache
@@ -16,8 +19,8 @@ interface ProfileDataSource {
     fun fetchSession(): UserAuth { throw UnsupportedOperationException()}
 
 //  Gravar no cache o usuário buscado
-    fun putUser(response: UserAuth) { throw UnsupportedOperationException()}
+    fun putUser(response: Pair<UserAuth, Boolean?>) { throw UnsupportedOperationException()}
 
 //  Para anexar os posts
-    fun putPosts(response: List<Post>) { throw UnsupportedOperationException()}
+    fun putPosts(response: List<Post>?) { throw UnsupportedOperationException()}
 }

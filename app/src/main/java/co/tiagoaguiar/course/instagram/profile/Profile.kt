@@ -7,16 +7,16 @@ import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
 interface Profile {
     interface Presenter: BasePresenter {
-        fun fetchProfile()
-        fun fetchUserPost()
+        fun fetchUserProfile(uuid: String?)
+        fun fetchUserPost(uuid: String?)
+        fun followUser(uuid: String?, follow: Boolean)
+        fun clear()
     }
     interface View: BaseView<Presenter> {
         fun showProgress(enabled: Boolean)
-        fun displayUserProfile(UserAuth: UserAuth)
+        fun displayUserProfile(user: Pair<UserAuth, Boolean?>)
         fun displayRequestFailure(message: String)
         fun displayEmptyPost()
         fun displayFullPost(posts: List<Post>)
-
     }
-
 }

@@ -1,16 +1,17 @@
 package co.tiagoaguiar.course.instagram.profile.data
 
+import co.tiagoaguiar.course.instagram.common.base.Cache
 import co.tiagoaguiar.course.instagram.common.base.RequestCallBack
 import co.tiagoaguiar.course.instagram.common.model.Database
 import co.tiagoaguiar.course.instagram.common.model.Post
 import co.tiagoaguiar.course.instagram.common.model.UserAuth
 
 class ProfileLocalDataSource(
-    private val profileCache: ProfileCache<UserAuth>,
-    private val postsCache: ProfileCache<List<Post>>
+    private val profileCache: Cache<Pair<UserAuth, Boolean?>>,
+    private val postsCache: Cache<List<Post>>
 ) : ProfileDataSource {
     //  Busca do cache
-    override fun fetchUserProfile(userUUID: String, callback: RequestCallBack<UserAuth>) {
+    override fun fetchUserProfile(userUUID: String, callback: RequestCallBack<Pair<UserAuth, Boolean?>> ) {
         val userAuth = profileCache.get(userUUID)
         if (userAuth != null) {
             callback.onSuccess(userAuth)
@@ -36,11 +37,11 @@ class ProfileLocalDataSource(
     }
 
     //  Joga dentro do cache o usuario a primeira vez
-    override fun putUser(response: UserAuth) {
+    override fun putUser(response: Pair<UserAuth, Boolean?>) {
         profileCache.put(response)
     }
 
-    override fun putPosts(response: List<Post>) {
+    override fun putPosts(response: List<Post>?) {
         postsCache.put(response)
     }
 

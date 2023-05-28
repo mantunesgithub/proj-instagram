@@ -45,4 +45,5 @@
     <string name="invalid_password">"  Senha deve ter ao menos 8 caracteres"</string>
     <string name="invalid_name">Nome deve conter mais que 3 caracteres</string>
     <string name="empty_list">Nenhum Registro Encontrado</string>
+    <string name="permission_camera_denied">Permissão não concedida. Habilite nas configurações do smartfone</string>
 </resources>

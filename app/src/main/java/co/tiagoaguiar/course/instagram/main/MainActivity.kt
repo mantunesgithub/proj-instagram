@@ -3,6 +3,7 @@ package co.tiagoaguiar.course.instagram.main
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
@@ -10,7 +11,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import co.tiagoaguiar.course.instagram.R
-import co.tiagoaguiar.course.instagram.camera.view.CameraFragment
+import co.tiagoaguiar.course.instagram.post.view.AddFragment
 import co.tiagoaguiar.course.instagram.common.extension.replaceFragment
 import co.tiagoaguiar.course.instagram.databinding.ActivityMainBinding
 import co.tiagoaguiar.course.instagram.home.view.HomeFragment
@@ -19,13 +20,16 @@ import co.tiagoaguiar.course.instagram.search.view.SearchFragment
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    AddFragment.AddListener,
+    SearchFragment.SearchListner{
+
     private lateinit var binding: ActivityMainBinding
     //fragmentos que serao utilizados
-    private lateinit var homeFragment: Fragment
+    private lateinit var homeFragment: HomeFragment
     private lateinit var searchFragment: Fragment
-    private lateinit var cameraFragment: Fragment
-    private lateinit var profileFragment: Fragment
+    private lateinit var addFragment: Fragment
+    private lateinit var profileFragment: ProfileFragment
 
     private var currentFragment: Fragment? = null
 
@@ -64,13 +68,28 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         homeFragment = HomeFragment()
         searchFragment = SearchFragment()
         profileFragment = ProfileFragment()
-        cameraFragment = CameraFragment()
+        addFragment = AddFragment()
 
         //esta atividade que esta implementando o callback quando clicar no icone
         binding.mainButtonNav.setOnNavigationItemSelectedListener(this)
         binding.mainButtonNav.selectedItemId = R.id.menu_botton_home
 
     }
+
+    override fun gotoProfile(uuid: String) {
+                            //Log.d("TAG", "gotoProfile: {MainActivity} = $uuid")
+        val fragment = ProfileFragment().apply {
+            arguments = Bundle().apply {
+                putString(ProfileFragment.KEY_USER_ID, uuid)
+            }
+        }
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.main_fragment, fragment, fragment.javaClass.simpleName + "detail")
+            addToBackStack(null)
+            commit()
+        }
+    }
+
     //escutar o evento de click do botton Navigation, precisa de um listener na atividade principal
     //entao implementa ele na classe (this)
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -85,10 +104,12 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             R.id.menu_botton_search -> {
                 if (currentFragment == searchFragment) return false
                 currentFragment = searchFragment
+                scrollToolBarEnable = false
             }
             R.id.menu_botton_add -> {
-                if (currentFragment == cameraFragment) return false
-                currentFragment = cameraFragment
+                if (currentFragment == addFragment) return false
+                currentFragment = addFragment
+                scrollToolBarEnable = false
             }
             R.id.menu_botton_profile -> {
                 if (currentFragment == profileFragment) return false
@@ -103,6 +124,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         return true
     }
+    override fun onPostCreated() {
+        homeFragment.presenter.clear()
+        if (supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null)
+            profileFragment.presenter.clear()
+
+        binding.mainButtonNav.selectedItemId = R.id.menu_botton_home
+    }
+
 
     private fun setScrollToolbarEnable(scrollToolBarEnable: Boolean) {
         val params = binding.mainToolbar.layoutParams as
@@ -119,4 +148,5 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         binding.mainAppBar.layoutParams = coordinatParams
     }
+
 }
