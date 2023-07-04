@@ -20,8 +20,9 @@ class AddFakeRemoteDataSource: AddDataSource {
                 posts = mutableSetOf()
                 Database.posts[userUUID] = posts
             }
-            val post = Post(UUID.randomUUID().toString(), uri, caption, System.currentTimeMillis(),
-            Database.sessionAuth!!)
+            //TODO: REMOVER ESSA CLASSE
+            val post = Post(UUID.randomUUID().toString(), null, caption, System.currentTimeMillis(),
+            null)
             posts.add(post)
 
             var followers = Database.followers[userUUID]

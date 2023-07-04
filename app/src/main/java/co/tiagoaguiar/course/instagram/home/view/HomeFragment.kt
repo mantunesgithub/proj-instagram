@@ -1,5 +1,6 @@
 package co.tiagoaguiar.course.instagram.home.view
 
+import android.content.Context
 import android.os.Bundle
 import android.system.Os.bind
 import android.view.*
@@ -17,6 +18,7 @@ import co.tiagoaguiar.course.instagram.common.model.UserAuth
 import co.tiagoaguiar.course.instagram.databinding.FragmentHomeBinding
 import co.tiagoaguiar.course.instagram.home.Home
 import co.tiagoaguiar.course.instagram.home.presenter.HomePresenter
+import co.tiagoaguiar.course.instagram.main.LogoutListener
 import co.tiagoaguiar.course.instagram.profile.view.PostAdapter
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
@@ -25,7 +27,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
 ), Home.View {
     override lateinit var presenter: Home.Presenter
     private val adapter = FeedAdapter()
+    private var logoutListener: LogoutListener? = null
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is LogoutListener) {
+            logoutListener = context
+        }
+    }
     override fun setUpPresenter() {
         presenter = HomePresenter(this, DependencyInjector.homeRepository())
 
@@ -72,5 +81,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, Home.Presenter>(
         adapter.items = posts
         adapter.notifyDataSetChanged()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_logout -> {
+                logoutListener?.logout()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

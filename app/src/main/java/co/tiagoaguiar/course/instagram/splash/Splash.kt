@@ -7,7 +7,7 @@ interface Splash {
     interface Presenter: BasePresenter {
         fun authenticated()
     }
-    interface View: BaseView<Presenter>{
+    interface View: BaseView<Presenter> {
         fun gotoMainScreen()
         fun gotoLoginScreen()
     }

@@ -1,28 +1,37 @@
-package co.tiagoaguiar.course.instagram.main
+package co.tiagoaguiar.course.instagram.main.view
 
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.text.TextUtils.replace
 import android.view.MenuItem
 import android.view.WindowInsetsController
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import co.tiagoaguiar.course.instagram.R
-import co.tiagoaguiar.course.instagram.post.view.AddFragment
 import co.tiagoaguiar.course.instagram.common.extension.replaceFragment
 import co.tiagoaguiar.course.instagram.databinding.ActivityMainBinding
 import co.tiagoaguiar.course.instagram.home.view.HomeFragment
+import co.tiagoaguiar.course.instagram.main.LogoutListener
+import co.tiagoaguiar.course.instagram.post.view.AddFragment
 import co.tiagoaguiar.course.instagram.profile.view.ProfileFragment
 import co.tiagoaguiar.course.instagram.search.view.SearchFragment
+import co.tiagoaguiar.course.instagram.splash.view.SplashActivity
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     AddFragment.AddListener,
-    SearchFragment.SearchListner{
+    SearchFragment.SearchListener,
+    LogoutListener,
+    ProfileFragment.FollowListener{
 
     private lateinit var binding: ActivityMainBinding
     //fragmentos que serao utilizados
@@ -48,14 +57,21 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 */
         //* acertos para rodar API 21 *
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.insetsController?.let {
-                it.setSystemBarsAppearance(
-                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
-                    WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
-                )
-                window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
+
+            when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                Configuration.UI_MODE_NIGHT_YES -> {
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.black)
+                    binding.mainImgLogo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                }
+                Configuration.UI_MODE_NIGHT_NO -> {
+                    window.insetsController?.setSystemBarsAppearance(
+                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                            WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                        )
+                        window.statusBarColor = ContextCompat.getColor(this, R.color.gray)
                 //mudar os temas dos itens do sistema. window.insetsController é o controlador dos icones das coisas dentro
                 //do sistema Android
+                }
             }
         }
         //Avisa Android que vai ter uma ToolBar e sera resposavel escutar eventos de ação nela
@@ -76,8 +92,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     }
 
-    override fun gotoProfile(uuid: String) {
-                            //Log.d("TAG", "gotoProfile: {MainActivity} = $uuid")
+    override fun goToProfile(uuid: String) {
+
         val fragment = ProfileFragment().apply {
             arguments = Bundle().apply {
                 putString(ProfileFragment.KEY_USER_ID, uuid)
@@ -88,6 +104,26 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             addToBackStack(null)
             commit()
         }
+    }
+
+    override fun followUpdated() {
+        homeFragment.presenter.clear()
+        if (supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null) {
+            profileFragment.presenter.clear()
+        }
+
+    }
+    override fun logout() {
+        if (supportFragmentManager.findFragmentByTag(profileFragment.javaClass.simpleName) != null) {
+            profileFragment.presenter.clear()
+        }
+
+        homeFragment.presenter.clear()
+        homeFragment.presenter.logout()
+        val intent = Intent(baseContext, SplashActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out)
     }
 
     //escutar o evento de click do botton Navigation, precisa de um listener na atividade principal
@@ -131,7 +167,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         binding.mainButtonNav.selectedItemId = R.id.menu_botton_home
     }
-
 
     private fun setScrollToolbarEnable(scrollToolBarEnable: Boolean) {
         val params = binding.mainToolbar.layoutParams as

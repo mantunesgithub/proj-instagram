@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "957962708977",
+    "project_id": "instagram-kfr",
+    "storage_bucket": "instagram-kfr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:957962708977:android:dc0bf28634d1f9c8480650",
+        "android_client_info": {
+          "package_name": "co.tiagoaguiar.course.instagram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChXYzYakSm0x-cSp897OVFy9y4wnO4CBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

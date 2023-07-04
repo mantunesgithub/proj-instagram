@@ -16,7 +16,7 @@ import co.tiagoaguiar.course.instagram.common.extension.replaceFragment
 import co.tiagoaguiar.course.instagram.common.view.CropperImageFragment
 import co.tiagoaguiar.course.instagram.common.view.CropperImageFragment.Companion.KEY_URI
 import co.tiagoaguiar.course.instagram.databinding.ActivityRegisterBinding
-import co.tiagoaguiar.course.instagram.main.MainActivity
+import co.tiagoaguiar.course.instagram.main.view.MainActivity
 import co.tiagoaguiar.course.instagram.register.view.RegisterNamePasswordFragment.Companion.KEY_EMAIL
 import co.tiagoaguiar.course.instagram.register.view.RegisterWelcomeFragment.Companion.KEY_NAME
 import java.io.File
@@ -47,7 +47,10 @@ class RegisterActivity : AppCompatActivity(), FragmentAttachListener {
         }
         replaceFragment(fragment)
     }
-
+    /* Vou navegar do frag1 para frag2. O frag1 terminou de fazer o processo, vai comunicar active
+        para trocar para frag2. Vai ser via interface. A active vai implementar a interface para
+        comunicar entre fragmento e atividade
+     */
     override fun goToWelcomeScreen(name: String) {
         val fragment = RegisterWelcomeFragment().apply {
             arguments = Bundle().apply {

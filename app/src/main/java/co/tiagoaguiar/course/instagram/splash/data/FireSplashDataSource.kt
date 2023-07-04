@@ -1,14 +1,13 @@
 package co.tiagoaguiar.course.instagram.splash.data
 
-import co.tiagoaguiar.course.instagram.common.model.Database
+import com.google.firebase.auth.FirebaseAuth
 
-class FakeLocalDataSource : SplashDataSource {
+class FireSplashDataSource : SplashDataSource {
     override fun session(callback: SplashCallback) {
-        if (Database.sessionAuth != null){
+        if (FirebaseAuth.getInstance().uid != null) {
             callback.onSuccess()
-        } else{
+        } else {
             callback.onFailure()
         }
     }
-
 }

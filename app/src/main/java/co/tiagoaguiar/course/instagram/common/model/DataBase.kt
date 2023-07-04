@@ -18,12 +18,16 @@ object Database {
 
     init {
         val userA = UserAuth(UUID.randomUUID().toString(),
+            "UserA",  "userA@gmail.com", "12345678", null)
+/*        val userA = UserAuth(UUID.randomUUID().toString(),
             "UserA",  "userA@gmail.com", "12345678", Uri.fromFile(
                 File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")))
         val userB = UserAuth(UUID.randomUUID().toString(),
             "UserB", "userB@gmail.com", "87654321", Uri.fromFile(
                 File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")))
+*/
         usersAuth.add(userA)
+/*
         usersAuth.add(userB)
 
         followers[userA.uuid] = hashSetOf()
@@ -33,33 +37,14 @@ object Database {
         followers[userB.uuid] = hashSetOf()
         posts[userB.uuid] = hashSetOf()
         feeds[userB.uuid] = hashSetOf()
-/*
-        feeds[userA.uuid]?.addAll(
-            arrayListOf(
-                Post(UUID.randomUUID().toString(), Uri.fromFile(
-                    File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")),
-                "desc", System.currentTimeMillis(), userA),
-                Post(UUID.randomUUID().toString(), Uri.fromFile(
-                    File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")),
-                "desc", System.currentTimeMillis(), userA),
-                Post(UUID.randomUUID().toString(), Uri.fromFile(
-                    File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")),
-                "desc", System.currentTimeMillis(), userA),
-                Post(UUID.randomUUID().toString(), Uri.fromFile(
-                    File("/storage/emulated/0/Android/media/co.tiagoaguiar.course.instagram/Instagram/2023-05-23-01-12-39-821.jpg")),
-                "desc", System.currentTimeMillis(), userA)
-            )
-        )
-        feeds[userA.uuid]?.toList()?.let {
-            feeds[userB.uuid]?.addAll(it)
-        }
- */
+
         for (i in 0..30) {
             val user = UserAuth(UUID.randomUUID().toString(),"User$i","user$i@gmail.com",
                 "123123123", null)
             usersAuth.add(user)
         }
-        sessionAuth = usersAuth.first()
-        followers[sessionAuth!!.uuid]?.add(usersAuth[2].uuid)
+ */
+        // sessionAuth = usersAuth.first()
+//        followers[sessionAuth!!.uuid]?.add(usersAuth[2].uuid)
     }
 }

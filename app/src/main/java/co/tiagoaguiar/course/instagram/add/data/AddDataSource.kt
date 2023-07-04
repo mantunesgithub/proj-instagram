@@ -9,5 +9,5 @@ interface AddDataSource {
     fun createPost(userUUID: String, uri: Uri, caption: String, callback: RequestCallBack<Boolean>){
         throw java.lang.UnsupportedOperationException()}
 
-    fun fetchSession() : UserAuth { throw java.lang.UnsupportedOperationException()}
+    fun fetchSession() : String { throw java.lang.UnsupportedOperationException()}
 }

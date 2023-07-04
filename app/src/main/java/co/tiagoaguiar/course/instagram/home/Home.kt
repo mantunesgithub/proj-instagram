@@ -8,6 +8,7 @@ import co.tiagoaguiar.course.instagram.common.model.UserAuth
 interface Home {
     interface Presenter: BasePresenter {
         fun fetchFeed()
+        fun logout()
         fun clear()
     }
     interface View: BaseView<Presenter> {

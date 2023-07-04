@@ -1,6 +1,9 @@
 package co.tiagoaguiar.course.instagram.register.view
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -27,6 +30,13 @@ class RegisterEmailFragment : Fragment(R.layout.fragment_register_email),Registe
 
         binding?.let {
             with(it) {
+                when (resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)){
+                    Configuration.UI_MODE_NIGHT_YES -> {
+                        registerImgLogo.imageTintList = ColorStateList.valueOf(Color.WHITE)
+                    }
+                    Configuration.UI_MODE_NIGHT_NO -> {
+                    }
+                }
                 registerTxtLogin.setOnClickListener{
                     activity?.finish()
                 }
@@ -39,9 +49,12 @@ class RegisterEmailFragment : Fragment(R.layout.fragment_register_email),Registe
                 })
             }
         }
-
     }
-
+    /* Toda vez que um fragmento é anexado a uma active esse método é disparado, vamos dizer para active
+        que o fragmento foi adicionado dentro dela e podemos tratar essa active sendo um listener para
+         esse fragmento
+         fragmentAttachListener = contexto de uma classe que esta implementando uma interface
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is FragmentAttachListener ) {

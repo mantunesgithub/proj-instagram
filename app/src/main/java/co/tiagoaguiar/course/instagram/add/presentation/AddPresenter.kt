@@ -11,7 +11,7 @@ class AddPresenter(
 ) :Add.Presenter {
     override fun createPost(uri: Uri, caption: String) {
         view?.showProgress(true)
-        repository.createPost(uri, caption, object : RequestCallBack<Boolean>{
+        repository.createPost(uri, caption, object : RequestCallBack<Boolean> {
             override fun onSuccess(data: Boolean) {
                 if (data){
                     view?.displayRequestSuccess()

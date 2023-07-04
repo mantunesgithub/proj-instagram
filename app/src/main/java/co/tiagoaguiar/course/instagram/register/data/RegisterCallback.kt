@@ -5,4 +5,3 @@ interface RegisterCallback {
     fun onFailure(message: String)
     fun onComplete()
 }
-
