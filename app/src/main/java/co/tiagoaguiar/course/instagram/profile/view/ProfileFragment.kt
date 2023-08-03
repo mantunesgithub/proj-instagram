@@ -78,7 +78,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, Profile.Presenter>(
         binding?.profileTxtFollowersCount?.text = userAuth.followers.toString()
         binding?.profileTxtFollowingCount?.text = userAuth.following.toString()
         binding?.profileTxtUsername?.text = userAuth.name
-        binding?.profileTxtBio?.text = "TODO"
+        binding?.profileTxtBio?.text = ""
 
         binding?.let{
             Glide.with(requireContext()).load(userAuth.photoUrl).into(it.profileImgIcon)
